@@ -7,11 +7,12 @@ use App\Repository\FlightRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FlightRepository::class)]
 #[ApiResource(
   description: "Flight",
-  normalizationContext: ['groups' => ['flight:read']]
+  normalizationContext: ['groups' => ['flight:read']],
 )]
 class Flight
 {
@@ -24,15 +25,18 @@ class Flight
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['flight:read','ticket:read'])]
+    #[Assert\NotBlank]
     private ?Airport $sourceAirport = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['flight:read','ticket:read'])]
+    #[Assert\NotBlank]
     private ?Airport $destinationAirport = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['flight:read','ticket:read'])]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $departureTime = null;
 
     public function getId(): ?int

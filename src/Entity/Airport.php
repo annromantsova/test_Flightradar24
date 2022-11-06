@@ -6,11 +6,12 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\AirportRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AirportRepository::class)]
 #[ApiResource(
   description: "Airport",
-  normalizationContext: ['groups' => [ 'airport:read']]
+  normalizationContext: ['groups' => [ 'airport:read']],
 )]
 class Airport
 {
@@ -21,14 +22,17 @@ class Airport
 
     #[ORM\Column(length: 255)]
     #[Groups(['flight:read','airport:read','ticket:read'])]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
     #[Groups(['airport:read'])]
+    #[Assert\NotBlank]
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['airport:read'])]
+    #[Assert\NotBlank]
     private ?string $city = null;
 
     public function getId(): ?int

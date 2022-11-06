@@ -13,6 +13,7 @@ use App\State\TicketProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ApiResource(
@@ -38,11 +39,13 @@ class Ticket
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['ticket:read','ticket:create','ticket:update'])]
+    #[Assert\NotBlank]
     private ?Flight $flight = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['ticket:read','ticket:create','ticket:update'])]
+    #[Assert\NotBlank]
     private ?Passenger $passenger = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]

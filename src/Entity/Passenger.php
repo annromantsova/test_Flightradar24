@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PassengerRepository::class)]
 #[ApiResource(
@@ -25,14 +26,17 @@ class Passenger
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['passenger:read'])]
+    #[Assert\NotBlank]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['passenger:read',])]
+    #[Assert\NotBlank]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['passenger:read','ticket:read'])]
+    #[Assert\NotBlank]
     private ?string $passportId = null;
 
     #[ORM\OneToMany(mappedBy: 'passenger', targetEntity: Ticket::class)]
