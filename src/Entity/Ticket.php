@@ -3,7 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\TicketRepository;
+use App\State\TicketProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -11,8 +17,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ApiResource(
   description: "Ticket",
-  normalizationContext: ['groups' => ['ticket:read']]
+  operations: [
+    new Patch(denormalizationContext: ['groups' => ['ticket:update']]),
+    new Put(denormalizationContext: ['groups' => ['ticket:update']]),
+    new Get(normalizationContext: ['groups' => ['ticket:read']]),
+    new Post(denormalizationContext: ['groups' => ['ticket:write']]),
+    new Delete(),
+  ],
+  processor: TicketProcessor::class,
 )]
+
 class Ticket
 {
     #[ORM\Id]
@@ -23,16 +37,16 @@ class Ticket
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['ticket:read'])]
+    #[Groups(['ticket:read','ticket:create','ticket:update'])]
     private ?Flight $flight = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['ticket:read'])]
+    #[Groups(['ticket:read','ticket:create','ticket:update'])]
     private ?Passenger $passenger = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Groups(['ticket:read'])]
+    #[Groups(['ticket:read','ticket:update'])]
     private ?int $seat = null;
 
     public function getId(): ?int
@@ -69,6 +83,9 @@ class Ticket
         return $this->seat;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function setSeat(?int $seat): self
     {
         $this->seat = $seat;

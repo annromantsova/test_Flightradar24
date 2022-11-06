@@ -12,7 +12,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: PassengerRepository::class)]
 #[ApiResource(
   description: "Passenger",
-  normalizationContext: ['groups' => ['passenger:read']]
+  normalizationContext: ['groups' => ['passenger:read']],
+  denormalizationContext:['groups' => ['passenger:write']]
 )]
 class Passenger
 {
@@ -27,7 +28,7 @@ class Passenger
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['passenger:read'])]
+    #[Groups(['passenger:read',])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
