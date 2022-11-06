@@ -12,8 +12,9 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; \
 
 COPY ./docker/php-fpm/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
+
 # Postgres
-RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_pgsql
+RUN apk add --no-cache libpq-dev && docker-php-ext-install bcmath pdo pdo_mysql
 
 # Configure non-root user.
 ARG PUID=1000
@@ -29,9 +30,9 @@ WORKDIR /var/www
 
 USER www-data
 
-# Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-interaction
+## Composer
+#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+#RUN composer install --no-interaction
 
 CMD php-fpm
 
