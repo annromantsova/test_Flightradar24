@@ -18,13 +18,13 @@ Implement this additional API operation
 Copy repository.
 
 ```sh
-git clone https://github.com/annromantsova/test_Flightradar24.git test_fr24
+git clone https://github.com/annromantsova/test_symfony.git
 ```
 
 Install and run docker container
 
 ```sh
-cd test_flightradar
+cd test_symfony
 cd docker
 docker-compose -f ./docker/docker-compose.yml --env-file ./docker/.env up --build
 ```
