@@ -1,0 +1,5 @@
+App\Entity\Ticket :
+ticket_{1..20}:
+    flight : <@flight_*>
+    passenger :<@passenger_*>
+    seat : <numberBetween(0, 32)>

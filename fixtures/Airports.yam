@@ -1,0 +1,5 @@
+App\Entity\Airport :
+airport_{1..10}:
+    name : <name()>
+    country : <name()>
+    city : <name()>

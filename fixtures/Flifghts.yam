@@ -1,0 +1,5 @@
+App\Entity\Flight :
+flight_{1..20}:
+    sourceAirport : '@airport_*'
+    destinationAirport :'@airport_*'
+    departureTime : <dateTime()>

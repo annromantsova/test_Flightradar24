@@ -21,21 +21,21 @@ class Passenger
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['passenger:read'])]
+    #[Groups(['passenger:read','passenger:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['passenger:read'])]
+    #[Groups(['passenger:read','passenger:write'])]
     #[Assert\NotBlank]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['passenger:read',])]
+    #[Groups(['passenger:read','passenger:write'])]
     #[Assert\NotBlank]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['passenger:read','ticket:read'])]
+    #[Groups(['passenger:read','passenger:write','ticket:read'])]
     #[Assert\NotBlank]
     private ?string $passportId = null;
 

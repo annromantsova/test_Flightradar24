@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\TicketRepository;
 use App\State\TicketProcessor;
 use Doctrine\DBAL\Types\Types;
@@ -17,12 +18,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ApiResource(
-  description: "Ticket",
+  description: "Tickets",
   operations: [
-    new Patch(denormalizationContext: ['groups' => ['ticket:update']]),
-    new Put(denormalizationContext: ['groups' => ['ticket:update']]),
-    new Get(normalizationContext: ['groups' => ['ticket:read']]),
-    new Post(denormalizationContext: ['groups' => ['ticket:write']]),
+    new Patch(
+      normalizationContext: ['groups' => ['ticket:read']],
+      denormalizationContext: ['groups' => ['ticket:update']],
+    ),
+    new Put(
+      normalizationContext: ['groups' => ['ticket:read']],
+      denormalizationContext: ['groups' => ['ticket:update']]
+    ),
+    new Get(
+      normalizationContext: ['groups' => ['ticket:read']]
+    ),
+    new Post(
+      normalizationContext: ['groups' => ['ticket:read']],
+      denormalizationContext: ['groups' => ['ticket:create']]
+    ),
+    new GetCollection(
+      normalizationContext: ['groups' => ['ticket:read']],
+      denormalizationContext: ['groups' => ['ticket:create']]),
     new Delete(),
   ],
   processor: TicketProcessor::class,
