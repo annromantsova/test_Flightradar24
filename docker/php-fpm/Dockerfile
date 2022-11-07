@@ -31,8 +31,8 @@ WORKDIR /var/www
 USER www-data
 
 ## Composer
-#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-#RUN composer install --no-interaction
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --no-interaction
 
 CMD php-fpm
 
